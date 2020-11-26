@@ -24,7 +24,7 @@ import com.atguigu.gulimall.sms.service.HomeSubjectService;
  *
  * @author likun
  * @email 1393067551@qq.com
- * @date 2020-11-17 15:21:09
+ * @date 2020-11-17 15:58:29
  */
 @Api(tags = "首页专题表【jd首页下面很多专题，每个专题链接新的页面，展示专题商品信息】 管理")
 @RestController

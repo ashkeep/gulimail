@@ -11,7 +11,7 @@ package com.atguigu.modules.sys.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import com.atguigu.common.exception.RRException;
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.Query;
@@ -92,7 +92,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
 	public <T> T getConfigObject(String key, Class<T> clazz) {
 		String value = getValue(key);
 		if(StringUtils.isNotBlank(value)){
-			return new Gson().fromJson(value, clazz);
+//			return new Gson().fromJson(value, clazz);
 		}
 
 		try {

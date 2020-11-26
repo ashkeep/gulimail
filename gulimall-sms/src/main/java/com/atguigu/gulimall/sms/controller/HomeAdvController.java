@@ -24,7 +24,7 @@ import com.atguigu.gulimall.sms.service.HomeAdvService;
  *
  * @author likun
  * @email 1393067551@qq.com
- * @date 2020-11-17 15:21:09
+ * @date 2020-11-17 15:58:29
  */
 @Api(tags = "首页轮播广告 管理")
 @RestController

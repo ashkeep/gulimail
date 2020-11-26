@@ -26,7 +26,7 @@ import com.atguigu.gulimall.pms.service.SkuInfoService;
  * @email 1393067551@qq.com
  * @date 2020-11-17 15:55:00
  */
-@Api(tags = "sku信息 管理")
+@Api(tags = "sku信息管理")
 @RestController
 @RequestMapping("pms/skuinfo")
 public class SkuInfoController {
