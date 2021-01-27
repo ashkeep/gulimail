@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/pms/oss")
 @RestController
 public class PmsOssController {
-    String accessId = "LTAI4GLDxv6k2eDcKR2weYkn";      // 请填写您的AccessKeyId。
+    String accessId = "";      // 请填写您的AccessKeyId。
     String accessKey = "2rRzHc9cA4vmoAbzCJIxqj6QndzLp2"; // 请填写您的AccessKeySecret。
     String endpoint = "oss-cn-guangzhou.aliyuncs.com"; // 请填写您的 endpoint。
     String bucket = "gulimall-likun";                    // 请填写您的 bucketname 。
