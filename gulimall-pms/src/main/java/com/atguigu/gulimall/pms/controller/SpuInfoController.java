@@ -1,12 +1,17 @@
 package com.atguigu.gulimall.pms.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
 import com.atguigu.gulimall.commons.bean.PageVo;
 import com.atguigu.gulimall.commons.bean.QueryCondition;
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.pms.entity.SkuInfoEntity;
+import com.atguigu.gulimall.pms.service.SkuInfoService;
+import com.atguigu.gulimall.pms.vo.SpuAllSaveVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +38,7 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+
     /**
      * 列表
      */
@@ -45,6 +51,26 @@ public class SpuInfoController {
         return Resp.ok(page);
     }
 
+    @GetMapping("/simple/search")
+    public Resp<Object>  querySpuInfoPage(QueryCondition queryCondition,
+                                          @RequestParam(value = "catId",defaultValue = "0") Long catId){
+        PageVo page = spuInfoService.queryPageByCatId(queryCondition,catId);
+        return Resp.ok(page);
+
+    }
+    /**
+     * /pms/spuinfo/updateStatus/{spuId}
+     */
+    @ApiOperation("商品上架/下架")
+    @GetMapping("/updateStatus/{spuId}")
+    public Resp<Object> updateSpuStatus(@RequestParam("status") Integer status,
+                                        @PathVariable("spuId") String spuId){
+        //
+
+        spuInfoService.updateSpuStatus(spuId,status);
+
+        return Resp.ok(null);
+    }
 
     /**
      * 信息
@@ -64,8 +90,8 @@ public class SpuInfoController {
     @ApiOperation("保存")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('pms:spuinfo:save')")
-    public Resp<Object> save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
+    public Resp<Object> save(@RequestBody SpuAllSaveVo spuInfo) throws Exception{
+		spuInfoService.spuBigSaveAll(spuInfo);
 
         return Resp.ok(null);
     }

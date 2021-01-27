@@ -2,6 +2,8 @@ package com.atguigu.gulimall.pms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -26,7 +28,8 @@ public class SpuInfoEntity implements Serializable {
 	 */
 	@TableId
 	@ApiModelProperty(name = "id",value = "商品id")
-	private Long id;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 	/**
 	 * 商品名称
 	 */

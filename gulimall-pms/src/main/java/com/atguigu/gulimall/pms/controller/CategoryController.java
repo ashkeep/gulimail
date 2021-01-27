@@ -1,6 +1,7 @@
 package com.atguigu.gulimall.pms.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -46,6 +47,24 @@ public class CategoryController {
     }
 
 
+    @ApiOperation("获取某个等级下的所有分类数据")
+    @GetMapping("/list/tree")
+//    @PreAuthorize("hasAuthority('pms:category:list:tree')")
+    public Resp<Object> listTree(@RequestParam(value = "level") Integer level){
+        List<CategoryEntity> data = categoryService.getCategoryByLevel(level);
+        return Resp.ok(data);
+    }
+
+    @ApiOperation("获取指定分类的子分类")
+    @GetMapping("/list/children/tree/{catId}")
+    public Resp<Object> listChildrenTree(@PathVariable("catId") Integer catId){
+
+        List<CategoryEntity> data = categoryService.getCategoryChildrensById(catId);
+        return Resp.ok(data);
+    }
+
+
+
     /**
      * 信息
      */
@@ -77,7 +96,8 @@ public class CategoryController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('pms:category:update')")
     public Resp<Object> update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+        System.out.println(category);
+        categoryService.updateById(category);
 
         return Resp.ok(null);
     }
