@@ -1,5 +1,8 @@
 package com.atguigu.gulimall.ums.service;
 
+import com.atguigu.gulimall.ums.vo.MemberLogin;
+import com.atguigu.gulimall.ums.vo.MemberRegistVo;
+import com.atguigu.gulimall.ums.vo.MemberRespVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atguigu.gulimall.ums.entity.MemberEntity;
 import com.atguigu.gulimall.commons.bean.PageVo;
@@ -16,5 +19,9 @@ import com.atguigu.gulimall.commons.bean.QueryCondition;
 public interface MemberService extends IService<MemberEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    MemberRespVo login(MemberLogin vo);
+
+    void register(MemberRegistVo vo);
 }
 

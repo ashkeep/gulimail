@@ -1,12 +1,14 @@
 package com.atguigu.gulimall.ums.controller;
 
 import java.util.Arrays;
-import java.util.Map;
 
 
 import com.atguigu.gulimall.commons.bean.PageVo;
 import com.atguigu.gulimall.commons.bean.QueryCondition;
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.ums.vo.MemberLogin;
+import com.atguigu.gulimall.ums.vo.MemberRegistVo;
+import com.atguigu.gulimall.ums.vo.MemberRespVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,27 @@ import com.atguigu.gulimall.ums.service.MemberService;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    public Resp<Object> login(MemberLogin vo){
+        MemberRespVo respVo = memberService.login(vo);
+        return Resp.ok(respVo);
+
+    }
+
+    @ApiOperation("用户注册")
+    @PostMapping("/regist")
+    public Resp<Object> register(MemberRegistVo vo)  {
+        Resp<Object> fail = Resp.fail(null);
+        try {
+            memberService.register(vo);
+        }catch (Exception pe){
+            fail.setMsg(pe.getMessage());
+            return fail;
+        }
+        return Resp.ok(null);
+
+    }
+
 
     /**
      * 列表

@@ -1,7 +1,26 @@
 package com.atguigu.gulimall.ums.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.atguigu.gulimall.commons.bean.Constant;
+import com.atguigu.gulimall.commons.exception.EmailExistException;
+import com.atguigu.gulimall.commons.exception.PhoneExistException;
+import com.atguigu.gulimall.commons.exception.UsernameExistException;
+import com.atguigu.gulimall.commons.utils.GuliJwtUtils;
+import com.atguigu.gulimall.ums.vo.MemberLogin;
+import com.atguigu.gulimall.ums.vo.MemberRegistVo;
+import com.atguigu.gulimall.ums.vo.MemberRespVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Map;
+
+import java.sql.Wrapper;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import com.atguigu.gulimall.commons.exception.UsernameAndPasswordInvaildException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,6 +36,12 @@ import com.atguigu.gulimall.ums.service.MemberService;
 @Service("memberService")
 public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> implements MemberService {
 
+    @Autowired
+    MemberDao memberDao;
+
+    @Autowired
+    StringRedisTemplate redisTemplate;
+
     @Override
     public PageVo queryPage(QueryCondition params) {
         IPage<MemberEntity> page = this.page(
@@ -25,6 +50,74 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         );
 
         return new PageVo(page);
+    }
+
+    @Override
+    public MemberRespVo login(MemberLogin vo) {
+        QueryWrapper<MemberEntity> wrapper = new QueryWrapper<MemberEntity>()
+                .or().eq("username", vo.getLoginacct())
+                .or().eq("mobile", vo.getLoginacct())
+                .or().eq("email", vo.getLoginacct());
+        MemberEntity one = memberDao.selectOne(wrapper);
+        if (one == null){
+            //登录失败
+            throw new UsernameAndPasswordInvaildException();
+        }
+
+        boolean matches = new BCryptPasswordEncoder().matches(vo.getPassword(), one.getPassword());
+        if (matches){
+            //登录成功
+            String token = UUID.randomUUID().toString().replace("-", "");
+            redisTemplate.opsForValue().set(Constant.LOGIN_USER_PREFIX+token, JSON.toJSONString(one),Constant.LOGIN_USER_TIME_MINUTES, TimeUnit.MINUTES);
+
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("token", token);
+            map.put("id" ,one.getId() );
+            //将我们在redis中的token做成jwt返回过去
+            String jwt = GuliJwtUtils.buildJwt(map, null);
+            MemberRespVo respVo = new MemberRespVo();
+            BeanUtils.copyProperties(one, respVo);
+            respVo.setToken(jwt);
+
+            return respVo;
+
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public void register(MemberRegistVo vo) {
+        MemberEntity entity = new MemberEntity();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encode = encoder.encode(vo.getPassword());
+
+        entity.setUsername(encode);
+        entity.setPassword(vo.getPassword());
+        entity.setEmail(vo.getEmail());
+        entity.setMobile(vo.getPhone());
+
+        Integer username = memberDao.selectCount(new QueryWrapper<MemberEntity>().eq("username", vo.getUsername()));
+
+        if (username > 0){
+            throw new UsernameExistException();
+        }
+        Integer email = memberDao.selectCount(new QueryWrapper<MemberEntity>().eq("email", vo.getEmail()));
+
+        if (email > 0){
+            throw new EmailExistException();
+        }
+
+        Integer mobile = memberDao.selectCount(new QueryWrapper<MemberEntity>().eq("mobile", vo.getPhone()));
+
+        if (mobile > 0){
+            throw new PhoneExistException();
+        }
+
+        memberDao.insert(entity);
+
+
     }
 
 }

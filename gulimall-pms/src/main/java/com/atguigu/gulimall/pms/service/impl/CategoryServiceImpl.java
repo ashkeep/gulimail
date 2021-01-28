@@ -1,5 +1,7 @@
 package com.atguigu.gulimall.pms.service.impl;
 
+import com.atguigu.gulimall.commons.bean.Constant;
+import com.atguigu.gulimall.pms.annotation.GuliCache;
 import com.atguigu.gulimall.pms.vo.CategoryWithChildrensVo;
 import io.micrometer.core.instrument.Meter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     @Override
+    @GuliCache(prefix = Constant.CACHE_CATELOG)
     public List<CategoryWithChildrensVo> getCategoryChildrensAndSubsById(Integer i) {
         List<CategoryWithChildrensVo> vos = categoryDao.selectCategoryChildrenWithChildrens(i);
         return vos;
