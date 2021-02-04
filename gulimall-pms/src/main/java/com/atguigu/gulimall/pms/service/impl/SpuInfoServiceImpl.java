@@ -1,6 +1,7 @@
 package com.atguigu.gulimall.pms.service.impl;
 
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.commons.to.SkuInfoVo;
 import com.atguigu.gulimall.commons.to.SkuSaleInfoTo;
 import com.atguigu.gulimall.commons.to.SkuStockVo;
 import com.atguigu.gulimall.commons.to.es.EsSkuAttributeValue;
@@ -338,6 +339,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             spuDown(spuId, status);
         }
     }
+
 
     private void spuDown(String spuId, Integer status) {
 

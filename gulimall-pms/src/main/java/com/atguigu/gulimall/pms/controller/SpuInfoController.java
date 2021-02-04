@@ -8,6 +8,7 @@ import java.util.Map;
 import com.atguigu.gulimall.commons.bean.PageVo;
 import com.atguigu.gulimall.commons.bean.QueryCondition;
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.commons.to.SkuInfoVo;
 import com.atguigu.gulimall.pms.entity.SkuInfoEntity;
 import com.atguigu.gulimall.pms.service.SkuInfoService;
 import com.atguigu.gulimall.pms.vo.SpuAllSaveVo;
@@ -37,6 +38,7 @@ import com.atguigu.gulimall.pms.service.SpuInfoService;
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
+
 
 
     /**

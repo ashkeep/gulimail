@@ -40,12 +40,8 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+  configuration:
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 server:
   port: 19000
-
-
-  #指定不同目录下的日志的级别
-# 打印sql
-logging:
-  level:
-    com.atguigu.gulimall.pms.dao : debug

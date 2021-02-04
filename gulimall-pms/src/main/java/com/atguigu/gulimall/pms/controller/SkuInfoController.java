@@ -8,6 +8,7 @@ import java.util.Map;
 import com.atguigu.gulimall.commons.bean.PageVo;
 import com.atguigu.gulimall.commons.bean.QueryCondition;
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.commons.to.SkuInfoVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,12 @@ public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
 
+    @GetMapping("/cart/{skuId}")
+    public Resp<SkuInfoVo> getSkuinfoForCart(@PathVariable("skuId")Long skuId){
+        SkuInfoVo vo = skuInfoService.getSkuVo(skuId);
+
+        return Resp.ok(vo);
+    }
 
 
     ///list/spu/{spuId}

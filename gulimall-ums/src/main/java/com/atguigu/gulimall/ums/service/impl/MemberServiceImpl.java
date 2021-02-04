@@ -93,8 +93,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode(vo.getPassword());
 
-        entity.setUsername(encode);
-        entity.setPassword(vo.getPassword());
+        entity.setUsername(vo.getUsername());
+        entity.setPassword(encode);
         entity.setEmail(vo.getEmail());
         entity.setMobile(vo.getPhone());
 

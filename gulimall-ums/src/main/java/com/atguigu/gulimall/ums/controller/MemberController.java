@@ -35,6 +35,8 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @ApiOperation("用户登录")
+    @PostMapping("/login")
     public Resp<Object> login(MemberLogin vo){
         MemberRespVo respVo = memberService.login(vo);
         return Resp.ok(respVo);

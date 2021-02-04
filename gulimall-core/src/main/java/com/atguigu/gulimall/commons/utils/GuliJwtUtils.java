@@ -20,7 +20,8 @@ public class GuliJwtUtils {
 
         JwtBuilder builder = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, GuliJwtUtils.key)
-                .setClaims(claims);//设置自定义的负载
+                .setClaims(payload);//设置自定义的负载
+
         if (claims != null){
             if (claims.getId() != null){
                 builder.setId(claims.getId());

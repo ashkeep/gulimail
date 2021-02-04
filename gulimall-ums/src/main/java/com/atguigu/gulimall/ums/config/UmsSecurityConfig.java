@@ -1,4 +1,4 @@
-package com.atguigu.gulimall.ums;
+package com.atguigu.gulimall.ums.config;
 
 
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.pms.service;
 
+import com.atguigu.gulimall.commons.to.SkuInfoVo;
 import com.atguigu.gulimall.pms.vo.BaseAttrVo;
 import com.atguigu.gulimall.pms.vo.SkuVo;
 import com.atguigu.gulimall.pms.vo.SpuAllSaveVo;
@@ -35,5 +36,6 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     void saveSkuInfos(Long spuId, List<SkuVo> skus);
 
     void updateSpuStatus(String spuId, Integer status);
+
 }
 
